@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turing's Platforms: A Critical Media Studies Presentation</title>
+    <!-- Google Fonts for Terminal/OS aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Body Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #0A0A0A; /* Dark background */
+            color: #00FF00; /* Green text for terminal vibe */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 255, 0, 0.05) 0%, transparent 70%);
+            animation: pulse-glow 15s infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.05); }
+            100% { opacity: 0.1; transform: scale(1); }
+        }
+
+        /* Presentation Container */
+        #presentation-container {
+            flex-grow: 1;
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 8px;
+            padding-top: 60px; /* Space for top navigation */
+            padding-bottom: 80px; /* Space for bottom timeline */
+        }
+
+        /* Slide Styling */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Adjusted padding to ensure no scroll */
+            text-align: center;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-in;
+            z-index: 0;
+            background-color: rgba(0, 0, 0, 0.85); /* Slightly more opaque background */
+            border: 1px solid #00AA00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            overflow: hidden; /* Crucial: No scrolling on slides */
+        }
+
+        .slide.active-slide {
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 1;
+        }
+
+        /* Slide Specific Visual Elements */
+        .prompt {
+            color: #00FFFF; /* Cyan for prompts */
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .terminal-block {
+            background-color: #011627; /* Dark blue-grey terminal background */
+            color: #EEFFFF; /* Light cyan for text inside terminal */
+            border: 1px solid #00AA00;
+            padding: 15px 25px; /* Adjusted padding */
+            margin: 15px auto; /* Adjusted margin */
+            border-radius: 4px;
+            max-width: 95%; /* Increased max-width for more content */
+            box-shadow: inset 0 0 8px rgba(0, 255, 0, 0.2);
+            text-align: left;
+            overflow-x: auto; /* Allow horizontal scrolling for wide content */
+            line-height: 1.5; /* Adjusted line-height for readability */
+        }
+        .terminal-block h2, .terminal-block h3 {
+            color: #FF00FF; /* Magenta for headers in terminal */
+            font-size: 1.4em; /* Adjusted font size */
+            margin-bottom: 8px; /* Adjusted margin */
+            text-transform: uppercase;
+        }
+        .terminal-block p, .terminal-block ul {
+            font-size: 1.05em; /* Increased for back-of-room readability */
+            line-height: 1.6;
+            margin-bottom: 6px;
+            list-style-type: '>> ';
+            padding-left: 20px;
+        }
+        .terminal-block li {
+            margin-bottom: 4px;
+        }
+
+        /* Highlighting for important info */
+        .highlight {
+            color: #FFFF00; /* Yellow highlight */
+            background-color: rgba(255, 255, 0, 0.15);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 700;
+            text-shadow: 0 0 5px #FFFF00;
+        }
+
+        /* Timestamps as hyperlinks */
+        .timestamp {
+            color: #00FFFF;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .timestamp:hover {
+            color: #00CCFF;
+            text-shadow: 0 0 8px #00CCFF;
+        }
+
+        /* Headings */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.2em; /* Adjusted font size */
+            color: #FF00FF;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px #FF00FF;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 1.8em; /* Adjusted font size */
+            color: #00FFFF;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Generic Text */
+        p.main-info {
+            font-size: 1.1em; /* Adjusted font size */
+            max-width: 900px;
+            margin-bottom: 15px;
+            color: #EEFFFF;
+        }
+
+        /* YouTube Embed Styling */
+        iframe {
+            width: 700px; /* Adjusted size for non-scrolling */
+            height: 393px;
+            border: 3px solid #00FFFF;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            margin: 15px 0;
+            background-color: #0A0A0A;
+            max-width: 95%;
+        }
+
+        /* Specific styles for Slide with image + text */
+        .slide-image-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 30px; /* Adjusted gap */
+            max-width: 1200px;
+            width: 100%;
+        }
+        .slide-image-content img {
+            max-width: 45%;
+            height: auto;
+            border: 3px solid #00FFFF;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .slide-image-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        /* Top Navigation Controls */
+        #top-navigation {
+            position: fixed;
+            top: 15px;
+            left: 15px; /* Positioned top-left */
+            z-index: 2000;
+            display: flex;
+            gap: 10px;
+        }
+
+        #top-navigation button {
+            background-color: transparent;
+            color: rgba(0, 255, 0, 0.6); /* Low-key green glow */
+            border: 1px solid rgba(0, 255, 0, 0.4);
+            padding: 8px 15px;
+            font-size: 0.9em;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+        }
+
+        #top-navigation button:hover:not(:disabled),
+        #top-navigation button.active {
+            background-color: rgba(0, 255, 0, 0.1);
+            color: #00FFFF;
+            border-color: #00FFFF;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+        }
+
+        #top-navigation button:disabled {
+            background-color: #333;
+            color: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+            border-color: #333;
+        }
+
+        /* Timeline Styling */
+        #timeline {
+            width: 100%;
+            background-color: #1a1a1a;
+            padding: 10px 0;
+            border-top: 1px dashed #00AA00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            gap: 8px;
+            font-size: 0.85em;
+            color: #888;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+        }
+
+        .timeline-item {
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .timeline-item:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            color: #00FFFF;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+
+        .timeline-item.active-timeline-item {
+            background-color: #00FFFF;
+            color: #0A0A0A;
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; margin-bottom: 15px; }
+            h2 { font-size: 1.4em; padding: 5px 10px; margin-bottom: 20px; }
+            p.main-info { font-size: 0.9em; }
+            iframe { width: 95%; height: auto; margin: 15px 0; }
+            .terminal-block { padding: 15px 20px; margin: 20px auto; }
+            .terminal-block h2, .terminal-block h3 { font-size: 1.2em; }
+            .terminal-block p, .terminal-block ul { font-size: 0.85em; padding-left: 15px; }
+            .slide-image-content { flex-direction: column; gap: 20px; }
+            .slide-image-content img { max-width: 80%; }
+            #top-navigation { top: 10px; left: 10px; gap: 8px; } /* Adjust for mobile */
+            #top-navigation button { padding: 6px 12px; font-size: 0.8em; }
+            #timeline { padding: 8px 5px; font-size: 0.7em; gap: 5px; }
+            .timeline-item { padding: 4px 8px; }
+            #presentation-container { padding-top: 50px; padding-bottom: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="presentation-container">
+
+        <!-- Top Navigation Controls -->
+        <div id="top-navigation">
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+
+        <!-- Slide 0: Title Slide -->
+        <div class="slide active-slide" id="slide-0" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=8&amp;end=21&amp;controls=0&modestbranding=1" data-video-start="0" data-video-end="21">
+            <p class="prompt">> BOOTING_SYSTEM.EXE</p>
+            <iframe src="" title="The Thinking Machine Intro" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <h1>The Thinking Machine</h1>
+            <p class="main-info">A 1968 Bell Telephone Film for <span class="highlight">Intro to Media Studies</span></p>
+            <p class="main-info">Exploring the dawn of Artificial Intelligence, media, and technogenesis.</p>
+            <div class="terminal-block">
+                <h3>FILM CREDITS <span class="timestamp" data-timestamp="9">(00:09)</span></h3>
+                <p>Writer: Saul Fingerman</p>
+                <p>Director: Henry R. Feinberg</p>
+                <p>Producer: Sol Dworkin</p>
+                <p>Photography: Sid Milstein</p>
+                <p>Animations: John Snyder</p>
+                <p>Source: <span class="highlight">PeriscopeFilm LLC Archive</span></p>
+            </div>
+            <p class="prompt">> READY_FOR_ANALYSIS</p>
+        </div>
+
+        <!-- Slide 1: Turing's Framework: The Imitation Game -->
+        <div class="slide" id="slide-1">
+            <p class="prompt">> TURING_FRAMEWORK.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING'S FRAMEWORK: THE IMITATION GAME (1950)</h2>
+                <p><strong>Context:</strong> Alan Turing's seminal paper "<span class="highlight">Computing Machinery and Intelligence</span>" (1950) proposes a test to answer "Can machines think?"</p>
+                <p><strong>The Game:</strong> Three participants – a man (A), a woman (B), and an interrogator (C). C questions A and B via <span class="highlight">teleprinter</span> to identify who is the man and who is the woman. The machine takes the part of A.</p>
+                <p><strong>Turing's Question:</strong> "<span class="highlight">What will happen when a machine takes the part of A in this game?</span> Will the interrogator decide wrongly as often when the game is played like this as he does when the game is played between a man and a woman?"</p>
+                <h3>Platform 1: The Imitation Game as Test</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Replacing the philosophical question "Can machines think?" with an <span class="highlight">operational, behavioral test.</span></li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> Intelligence is determined by successful <span class="highlight">imitation of human responses</span> to the point of indistinguishability, avoiding metaphysical debates.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: FRAMEWORK_ESTABLISHED</p>
+        </div>
+
+        <!-- Slide 2: Film's Definition 1: Memory & Recall -->
+        <div class="slide" id="slide-2" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=110&amp;end=120&amp;controls=0&modestbranding=1" data-video-start="110" data-video-end="120">
+            <p class="prompt">> DEFINITION_1_MEMORY_RECALL.INIT</p>
+            <iframe src="" title="Memory Definition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="terminal-block">
+                <h2>PROCESS: RECALL.EXE</h2>
+                <p><strong>Film Definition:</strong> "<span class="highlight">to think: to call to mind, to remember</span>" <span class="timestamp" data-timestamp="110">(00:01:50)</span></p>
+                <p><strong>Metaphor:</strong> The human mind's <span class="highlight">fallible recall</span> vs. a machine's <span class="highlight">infallible data access</span>. Illustrated by evolution from primitive tools (stones, abacus) to electronic memory. <span class="timestamp" data-timestamp="150">(02:30)</span></p>
+                <h3>Technical Systems & Media Theory:</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Binary Logic:</strong></span> Represented by simple light switches (on/off). <span class="timestamp" data-timestamp="200">(03:19)</span></li>
+                    <li><span class="highlight"><strong>Early Mainframe Storage:</strong></span> Magnetic tapes, disk drives, magnetic cores. <span class="timestamp" data-timestamp="230">(03:50)</span></li>
+                    <li><span class="highlight"><strong>Extension of Cognition:</strong></span> Machines as media externalize and augment human memory, digitizing information. <span class="timestamp" data-timestamp="135">(02:15)</span></li>
+                    <li><span class="highlight"><strong>Data as New Medium:</strong></span> Unprecedented speed and volume of recall alters our relationship with information. <span class="timestamp" data-timestamp="268">(04:28)</span></li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: MEMORY_PROCESS_COMPLETE</p>
+        </div>
+
+        <!-- Slide 3: Turing's Perspective: The Store -->
+        <div class="slide" id="slide-3">
+            <p class="prompt">> TURING_PERSPECTIVE_STORE.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: THE STORE (MEMORY ARCHITECTURE)</h2>
+                <p><strong>Concept:</strong> Turing defines the <span class="highlight">"Store"</span> as a digital computer's information repository, analogous to a human computer's paper for calculations or memory. (Section 4)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">The store is a store of information, and corresponds to the human computer's paper... In so far as the human computer does calculations in his head a part of the store will correspond to his memory.</span>"</p>
+                <h3>Platform 2: The Digital Computer as Universal Machine</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Digital computers are <span class="highlight">universal machines</span>, capable of mimicking any discrete-state machine if suitably programmed.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> The core question becomes if an <span class="highlight">imaginary digital computer</span>, not current ones, could pass the Imitation Game.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_STORE_ANALYZED</p>
+        </div>
+
+        <!-- Slide 4: Film's Definition 2: Logic & Computation -->
+        <div class="slide" id="slide-4" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=305&amp;end=315&amp;controls=0&modestbranding=1" data-video-start="305" data-video-end="315">
+            <p class="prompt">> DEFINITION_2_LOGIC_COMPUTATION.INIT</p>
+            <iframe src="" title="Logic Definition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="terminal-block">
+                <h2>PROCESS: LOGIC_ENGINE.EXE</h2>
+                <p><strong>Film Definition:</strong> "<span class="highlight">to think: to subject to the process of logical thought</span>" <span class="timestamp" data-timestamp="294">(04:45)</span></p>
+                <p><strong>Metaphor:</strong> The <span class="highlight">abstract chess game</span>. Human strategic planning is mirrored by algorithmic decision-making, where every move follows a predictable, computable path. <span class="timestamp" data-timestamp="305">(05:05)</span></p>
+                <h3>Technical Systems & Media Theory:</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Boolean Logic Gates:</strong></span> Fundamental "AND" and "OR" circuits. <span class="timestamp" data-timestamp="351">(05:51)</span></li>
+                    <li><span class="highlight"><strong>Logic Networks:</strong></span> Complex interconnections forming computation. <span class="timestamp" data-timestamp="389">(06:29)</span></li>
+                    <li><span class="highlight"><strong>Automated Systems:</strong></span> Electronic telephone switching offices processing millions of logical decisions. <span class="timestamp" data-timestamp="395">(06:35)</span></li>
+                    <li><span class="highlight"><strong>Automation of Thought:</strong></span> Machines extend and optimize tasks requiring structured reasoning.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: LOGIC_PROCESS_COMPLETE</p>
+        </div>
+
+        <!-- Slide 5: Turing's Perspective: Executive Unit & Control -->
+        <div class="slide" id="slide-5">
+            <p class="prompt">> TURING_PERSPECTIVE_EXECUTIVE_CONTROL.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: EXECUTIVE UNIT & CONTROL (LOGIC EXECUTION)</h2>
+                <p><strong>Concepts:</strong> Turing divides the digital computer into three parts: Store, <span class="highlight">Executive Unit</span>, and <span class="highlight">Control</span> (Section 4).</p>
+                <ul>
+                    <li><span class="highlight"><strong>Executive Unit:</strong></span> Carries out individual operations (e.g., "Multiply X by Y," "Write down 0").</li>
+                    <li><span class="highlight"><strong>Control:</strong></span> Ensures instructions (the "table of instructions") are obeyed correctly and in order.</li>
+                </ul>
+                <p><strong>Quote:</strong> "<span class="highlight">The control is so constructed that this necessarily happens.</span>"</p>
+                <h3>Platform 3: Physical vs. Intellectual Capacities</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Intelligence should be evaluated <span class="highlight">independently from physical form</span>.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> The Imitation Game's conditions prevent the interrogator from seeing or touching, eliminating physical biases.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_EXECUTION_ANALYZED</p>
+        </div>
+
+        <!-- Slide 6: Film's Definition 3: Perception & Recognition -->
+        <div class="slide" id="slide-6" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=421&amp;end=430&amp;controls=0&modestbranding=1" data-video-start="421" data-video-end="430">
+            <p class="prompt">> DEFINITION_3_PERCEPTION_RECOGNITION.INIT</p>
+            <iframe src="" title="Perception Definition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="terminal-block">
+                <h2>PROCESS: RECOGNIZE.EXE</h2>
+                <p><strong>Film Definition:</strong> "<span class="highlight">to think: to perceive or recognize</span>" <span class="timestamp" data-timestamp="511">(08:31)</span></p>
+                <p><strong>Metaphor:</strong> Human holistic perception vs. <span class="highlight">machine pattern-matching</span>. A human effortlessly discerns a face, while a machine struggles, limited to simple patterns like zip codes. <span class="timestamp" data-timestamp="539">(08:59-09:21)</span></p>
+                <h3>Technical Systems & Media Theory:</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Optical/Magnetic Sensors:</strong></span> Used in bank check readers and postal sorters. <span class="timestamp" data-timestamp="550">(09:10)</span></li>
+                    <li><span class="highlight"><strong>Pattern Matching Algorithms:</strong></span> Identifying well-defined sequences. <span class="timestamp" data-timestamp="561">(09:21)</span></li>
+                    <li><span class="highlight"><strong>Semiotic Limitations:</strong></span> Machines struggle with context and generalization (e.g., "Out of sight, out of mind" translated as "Invisible imbecile"). <span class="timestamp" data-timestamp="600">(10:10)</span></li>
+                    <li><span class="highlight"><strong>Human-Machine Divide:</strong></span> Highlights unique human ability to derive nuanced meaning.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: PERCEPTION_PROCESS_COMPLETE</p>
+        </div>
+
+        <!-- Slide 7: Turing's Perspective: Informality of Behaviour -->
+        <div class="slide" id="slide-7">
+            <p class="prompt">> TURING_PERSPECTIVE_INFORMALITY.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: INFORMALITY OF BEHAVIOUR (LIMITS OF RULES)</h2>
+                <p><strong>Concept:</strong> The "<span class="highlight">Argument from Informality of Behaviour</span>" posits that humans cannot be fully described by a definite set of rules for every conceivable circumstance. (Section 8)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">It is not possible to produce a set of rules purporting to describe what a man should do in every conceivable set of circumstances.</span>"</p>
+                <h3>Platform 4: Theological Objection and Divine Creation</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Turing counters the idea that only God can bestow thinking souls.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> Human construction of machines is analogous to <span class="highlight">procreation</span>; both are instruments of divine will, suggesting God could similarly confer souls on machines.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_INFORMALITY_ANALYZED</p>
+        </div>
+
+        <!-- Slide 8: Film's Definition 4: Emotion & Empathy -->
+        <div class="slide" id="slide-8" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=618&amp;end=628&amp;controls=0&modestbranding=1" data-video-start="618" data-video-end="628">
+            <p class="prompt">> DEFINITION_4_EMOTION_EMPATHY.INIT</p>
+            <iframe src="" title="Emotion Definition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="terminal-block">
+                <h2>PROCESS: EMOTION_NULL.EXE</h2>
+                <p><strong>Film Definition:</strong> "<span class="highlight">to think: to have feeling or consideration for</span>" <span class="timestamp" data-timestamp="618">(00:10:27)</span></p>
+                <p><strong>Metaphor:</strong> The <span class="highlight">yawning robot</span>. A human programmer's affection is unmet by the machine's inherent lack of emotion, bias, or boredom. Its interaction is purely functional. <span class="timestamp" data-timestamp="646">(00:10:46)</span></p>
+                <h3>Technical Systems & Media Theory:</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Automated Operation:</strong></span> Mainframe computers performing tasks objectively. <span class="timestamp" data-timestamp="657">(00:10:57)</span></li>
+                    <li><span class="highlight"><strong>Programmed Neutrality:</strong></span> Machines ensure consistency without emotional interference.</li>
+                    <li><span class="highlight"><strong>A-Emotional Interface:</strong></span> The absence of emotion in machines is framed as efficient, yet underscores the non-humanity of digital labor.</li>
+                    <li><span class="highlight"><strong>Technological Objectivity:</strong></span> Machines offer an 'objective' lens, impacting fields needing strict impartiality.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: EMOTION_PROCESS_COMPLETE</p>
+        </div>
+
+        <!-- Slide 9: Turing's Perspective: Argument from Consciousness -->
+        <div class="slide" id="slide-9">
+            <p class="prompt">> TURING_PERSPECTIVE_CONSCIOUSNESS.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: ARGUMENT FROM CONSCIOUSNESS (EMOTION & CREATIVITY)</h2>
+                <p><strong>Context:</strong> Turing addresses Professor Jefferson's argument that a machine cannot truly "think" until it can <span class="highlight">compose a sonnet or concerto based on felt thoughts and emotions</span>. (Section 4)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">Not until a machine can write a sonnet or compose a concerto because of thoughts and emotions felt... could we agree that machine equals brain...</span>"</p>
+                <h3>Platform 5: Mathematical Limitations (Gödel's Theorem)</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> The limits of formal systems don't necessarily prove human superiority over machines.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> While any particular machine has limitations, humans haven't proven they lack <span class="highlight">similar limitations</span>.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_CONSCIOUSNESS_ANALYZED</p>
+        </div>
+
+        <!-- Slide 10: Film's Definition 5: Creativity & Innovation -->
+        <div class="slide" id="slide-10" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=703&amp;end=710&amp;controls=0&modestbranding=1" data-video-start="703" data-video-end="710">
+            <p class="prompt">> DEFINITION_5_CREATIVITY_INNOVATION.INIT</p>
+            <iframe src="" title="Creativity Definition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="slide-image-content">
+                <img src="https://i.imgur.com/gK9XG1h.png" alt="Animated robot defining 'to think: to create or devise'">
+                <div class="terminal-block slide-image-text">
+                    <h2>PROCESS: DEVISE.EXE</h2>
+                    <p><strong>Film Definition:</strong> "<span class="highlight">to think: to create or devise</span>" <span class="timestamp" data-timestamp="703">(00:11:43)</span></p>
+                    <p><strong>Metaphor:</strong> The <span class="highlight">human artist vs. the algorithmic generator</span>. Human ingenuity (sculpting, composing music, painting) is contrasted with computer outputs that merely "appear" creative. <span class="timestamp" data-timestamp="705">(00:11:35-12:20)</span></p>
+                    <h3>Technical Systems & Media Theory:</h3>
+                    <ul>
+                        <li><span class="highlight"><strong>Computer Graphics:</strong></span> CRTs generating abstract shapes and animations. <span class="timestamp" data-timestamp="737">(00:12:27, 00:13:08)</span></li>
+                        <li><span class="highlight"><strong>Algorithmic Art & Music:</strong></span> Computer-drawn pictures and music. <span class="timestamp" data-timestamp="754">(00:12:34, 00:13:30)</span></li>
+                        <li><span class="highlight"><strong>Generative vs. Human Artistry:</strong></span> Computers enable new aesthetic forms but spark debate: is it creation or complex execution?</li>
+                        <li><span class="highlight"><strong>The Question of Authorship:</strong></span> Challenges traditional notions of who or what can be considered an artist.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="prompt">> STATUS: CREATIVITY_PROCESS_COMPLETE</p>
+        </div>
+
+        <!-- Slide 11: Turing's Perspective: Lady Lovelace's Objection -->
+        <div class="slide" id="slide-11">
+            <p class="prompt">> TURING_PERSPECTIVE_LOVELACE.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: LADY LOVELACE'S OBJECTION (CREATIVITY)</h2>
+                <p><strong>Context:</strong> Ada Lovelace, analyzing Babbage's Analytical Engine, argued machines "<span class="highlight">have no pretensions to originate anything. It can do whatever we know how to order it to perform</span>." (Section 6)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">The Analytical Engine has no pretensions to originate anything. It can do whatever we know how to order it to perform.</span>"</p>
+                <h3>Platform 6: Consciousness and Solipsism</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> The impossibility of directly knowing another's consciousness, whether human or machine.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> The extreme consciousness objection leads to <span class="highlight">solipsism</span>; if we accept other humans think, we should apply similar standards to machines.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_LOVELACE_ANALYZED</p>
+        </div>
+
+        <!-- Slide 12: Turing's Objection: The "Heads in the Sand" -->
+        <div class="slide" id="slide-12">
+            <p class="prompt">> TURING_OBJECTION_HEADS_SAND.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: THE "HEADS IN THE SAND" OBJECTION</h2>
+                <p><strong>Concept:</strong> This objection acknowledges the <span class="highlight">human psychological resistance</span> to machines thinking, driven by fear of losing perceived human superiority. (Section 2)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">The consequences of machines thinking would be too dreadful. Let us hope and believe that they cannot do so.</span>"</p>
+                <h3>Platform 7: Lady Lovelace's Objection and Originality</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> The question of whether machines can <span class="highlight">originate anything</span> or only do what they're programmed to do.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> Machines can <span class="highlight">surprise us</span>; human "originality" may itself be untraced influence.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_HEADS_SAND_ANALYZED</p>
+        </div>
+
+        <!-- Slide 13: Turing's Objection: Argument from Disabilities -->
+        <div class="slide" id="slide-13">
+            <p class="prompt">> TURING_OBJECTION_DISABILITIES.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: ARGUMENT FROM DISABILITIES</h2>
+                <p><strong>Concept:</strong> The claim that machines lack various human capacities (<span class="highlight">humor, love, creativity, etc.</span>). (Section 5)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">Be kind, resourceful, beautiful, friendly, have initiative, have a sense of humour, tell right from wrong, make mistakes, fall in love, enjoy strawberries and cream...</span>"</p>
+                <h3>Platform 8: Argument from Disabilities</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Machines lack various human capacities (humor, love, creativity, etc.).</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> These objections are based on <span class="highlight">limited induction</span> from existing primitive machines with small storage capacity; they don't apply to imaginable future machines.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_DISABILITIES_ANALYZED</p>
+        </div>
+
+        <!-- Slide 14: Turing's Objection: Continuity vs. Discrete States -->
+        <div class="slide" id="slide-14">
+            <p class="prompt">> TURING_OBJECTION_CONTINUITY.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: CONTINUITY VS. DISCRETE STATES</h2>
+                <p><strong>Concept:</strong> Whether the <span class="highlight">continuous nature of the nervous system</span> prevents discrete-state machines from imitating it. (Section 7)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">If we adhere to the conditions of the imitation game, the interrogator will not be able to take any advantage of this difference.</span>"</p>
+                <h3>Platform 9: Continuity vs. Discrete States</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Whether the continuous nature of the nervous system prevents discrete-state machines from imitating it.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> A discrete system can produce outputs <span class="highlight">indistinguishable from a continuous one</span> within the game's constraints.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_CONTINUITY_ANALYZED</p>
+        </div>
+
+        <!-- Slide 15: Turing's Platform: The Learning Machine as Child -->
+        <div class="slide" id="slide-15">
+            <p class="prompt">> TURING_PLATFORM_LEARNING_CHILD.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: THE LEARNING MACHINE AS CHILD</h2>
+                <p><strong>Concept:</strong> Programming a <span class="highlight">child-like machine</span> and educating it rather than directly programming an adult mind. (Section 7)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">Instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's?</span> If this were then subjected to an appropriate course of education one would obtain the adult brain."</p>
+                <h3>Platform 10: The Learning Machine as Child</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Programming a child-like machine and educating it rather than directly programming an adult mind.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> It's more tractable to <span class="highlight">create a simple child machine</span> and educate it than to directly program all the complexity of an adult mind; this mirrors biological development.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_LEARNING_CHILD_ANALYZED</p>
+        </div>
+
+        <!-- Slide 16: Turing's Platform: Punishments, Rewards, and Imperatives -->
+        <div class="slide" id="slide-16">
+            <p class="prompt">> TURING_PLATFORM_REWARDS_IMPERATIVES.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: PUNISHMENTS, REWARDS, AND IMPERATIVES</h2>
+                <p><strong>Concept:</strong> Teaching machines through <span class="highlight">reinforcement</span> and <span class="highlight">logical imperatives</span>. (Section 7)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">The machine should be so constructed that as soon as an imperative is classed as 'well established' the appropriate action automatically takes place.</span>"</p>
+                <h3>Platform 11: Punishments, Rewards, and Imperatives</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Teaching machines through reinforcement and logical imperatives.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> Combining rewards/punishments with "<span class="highlight">unemotional</span>" logical communication allows more efficient learning and complex behavior.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_REWARDS_IMPERATIVES_ANALYZED</p>
+        </div>
+
+        <!-- Slide 17: Turing's Platform: Teacher Ignorance and Emergent Behavior -->
+        <div class="slide" id="slide-17">
+            <p class="prompt">> TURING_PLATFORM_EMERGENT_BEHAVIOR.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: TEACHER IGNORANCE AND EMERGENT BEHAVIOR</h2>
+                <p><strong>Concept:</strong> A learning machine's internal states may become <span class="highlight">opaque even to its teacher</span>, yet still produce predictable behavior. (Section 7)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">An important feature of a learning machine is that its teacher will often be very largely ignorant of quite what is going on inside, although he may still be able to some extent to predict his pupil's behavior.</span>"</p>
+                <h3>Platform 12: Teacher Ignorance and Emergent Behavior</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> A learning machine's internal states may become opaque even to its teacher, yet still produce predictable behavior.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> The view that "machines can only do what we know how to order them to do" is strange given that most programs produce behavior we can't fully understand.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_EMERGENT_BEHAVIOR_ANALYZED</p>
+        </div>
+
+        <!-- Slide 18: Turing's Platform: Random Elements and Search Strategies -->
+        <div class="slide" id="slide-18">
+            <p class="prompt">> TURING_PLATFORM_RANDOM_SEARCH.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: RANDOM ELEMENTS AND SEARCH STRATEGIES</h2>
+                <p><strong>Concept:</strong> Including <span class="highlight">randomness in machines</span> to aid problem-solving and learning. (Section 7)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">It is probably wise to include a random element in a learning machine. A random element is rather useful when we are searching for a solution of some problem.</span>"</p>
+                <h3>Platform 13: Random Elements and Search Strategies</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Including randomness in machines to aid problem-solving and learning.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> Random search has advantages when the solution space is large; it avoids getting stuck in <span class="highlight">systematic dead ends</span>, and mirrors evolutionary processes.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_RANDOM_SEARCH_ANALYZED</p>
+        </div>
+
+        <!-- Slide 19: Turing's Platform: The Fifty-Year Prediction -->
+        <div class="slide" id="slide-19">
+            <p class="prompt">> TURING_PLATFORM_PREDICTION.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: THE FIFTY-YEAR PREDICTION</h2>
+                <p><strong>Concept:</strong> Concrete prediction about machine capabilities within a specific timeframe. (Section 6)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">I believe that in about fifty years' time it will be possible to programme computers, with a storage capacity of about 10^9, to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning.</span>"</p>
+                <h3>Platform 14: The Fifty-Year Prediction</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> Concrete prediction about machine capabilities within a specific timeframe.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> Making concrete, falsifiable predictions serves <span class="highlight">scientific progress</span> even if they're conjectures; belief about future language use regarding "machines thinking" will shift with capability.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_PREDICTION_ANALYZED</p>
+        </div>
+
+        <!-- Slide 20: Turing's Platform: The Teleprinter as Epistemic Equalizer -->
+        <div class="slide" id="slide-20">
+            <p class="prompt">> TURING_PLATFORM_TELEPRINTER.INIT</p>
+            <div class="terminal-block">
+                <h2>TURING: THE TELEPRINTER AS EPISTEMIC EQUALIZER</h2>
+                <p><strong>Concept:</strong> Communication medium as the <span class="highlight">arbiter of what counts as intelligence</span>. (Section 1)</p>
+                <p><strong>Quote:</strong> "<span class="highlight">In order that tones of voice may not help the interrogator the answers should be written, or better still, typewritten. The ideal arrangement is to have a teleprinter communicating between the two rooms.</span>"</p>
+                <h3>Platform 15: The Teleprinter as Epistemic Equalizer</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Key Concept:</strong></span> The teleprinter creates a specific <span class="highlight">epistemological space</span> where only certain kinds of evidence count.</li>
+                    <li><span class="highlight"><strong>Argument:</strong></span> The choice of communication medium fundamentally shapes what we can test and therefore <span class="highlight">what we can know</span> about intelligence.</li>
+                </ul>
+            </div>
+            <p class="prompt">> STATUS: TURING_TELEPRINTER_ANALYZED</p>
+        </div>
+
+        <!-- Slide 21: Portal 1: Teleprinter & Cognitive Flattening (W10S19 - Hayles) -->
+        <div class="slide" id="slide-21">
+            <p class="prompt">> PORTAL_1_COGNITIVE_FLATTENING.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: COGNITIVE FLATTENING (W10S19 - HAYLES)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>The <span class="highlight">teleprinter interface</span> deliberately flattens human intelligence into <span class="highlight">text-only performance</span>, privileging linguistic processing over embodied or tonal intelligence.</p>
+                <h3>Course Connection:</h3>
+                <p>Hayles's concept of <span class="highlight">technogenesis</span> describes how our cognition co-evolves with media. The teleprinter is an early example: it <span class="highlight">reshapes what cognition means</span> by focusing only on what can be expressed and evaluated through text. This prefigures contemporary AI that "thinks" primarily in text tokens.</p>
+                <h3>Portal Question:</h3>
+                <p>How does the teleprinter represent an early technogenetic moment where the medium (text-only) reshapes what cognition means? What cognitive capacities does this interface <span class="highlight">privilege or erase</span>? How does this prefigure contemporary AI that "thinks" only in text tokens?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_1_ACTIVE</p>
+        </div>
+
+        <!-- Slide 22: Portal 2: 1950 Storage Capacity Bet (W10S19 - Scaling) -->
+        <div class="slide" id="slide-22">
+            <p class="prompt">> PORTAL_2_STORAGE_SCALING.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: 1950 STORAGE CAPACITY BET (W10S19 - SCALING)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing predicts that <span class="highlight">10^9 storage capacity</span> would be "very practicable" by 2000, assuming bigger storage simply means "more of the same intelligence" rather than <span class="highlight">qualitatively different phenomena</span>.</p>
+                <h3>Course Connection:</h3>
+                <p>This links to how <span class="highlight">AI scales today</span>. Turing's linear assumption misses that massive scale (e.g., LLMs with hundreds of billions of parameters) produces <span class="highlight">emergent capabilities</span>. This directly impacts the nature of machine intelligence and human cognitive labor.</p>
+                <h3>Portal Question:</h3>
+                <p>What happens when AI doesn't just scale linearly but produces <span class="highlight">emergent capabilities</span> Turing couldn't predict? How does the shift from 10^9 to 10^11+ parameters change not just machine capability but human cognitive labor in relation to these systems?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_2_ACTIVE</p>
+        </div>
+
+        <!-- Slide 23: Portal 3: The Five-Minute Conversation Window (W10S20 - Conversation) -->
+        <div class="slide" id="slide-23">
+            <p class="prompt">> PORTAL_3_CONVERSATION_WINDOW.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: FIVE-MINUTE CONVERSATION WINDOW (W10S20 - CONVERSATION)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing specifies "<span class="highlight">five minutes of questioning</span>" as sufficient for the Imitation Game, defining intelligence as <span class="highlight">rapid-response performance</span> rather than sustained interaction or relational depth.</p>
+                <h3>Course Connection:</h3>
+                <p>This temporal constraint shapes "intelligence as a media problem." It privileges quick wit over wisdom, and performance over character. Today, platform interfaces (chat, feeds) inherit and reinforce such temporal limitations.</p>
+                <h3>Portal Question:</h3>
+                <p>Does intelligence require duration and relationship? Should the test be five minutes or five months? What forms of machine intelligence become visible or invisible based on conversational timeframe? How do platform interfaces today inherit Turing's five-minute window?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_3_ACTIVE</p>
+        </div>
+
+        <!-- Slide 24: Portal 4: Programming as 1000 Digits/Day (W10S19 - Labor Shift) -->
+        <div class="slide" id="slide-24">
+            <p class="prompt">> PORTAL_4_PROGRAMMING_LABOR.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: PROGRAMMING AS 1000 DIGITS/DAY (W10S19 - LABOR SHIFT)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing's calculation of <span class="highlight">1000 digits of program per day</span> highlights programming as concrete, bodily labor with <span class="highlight">fatigue and temporal constraints</span>, not purely abstract logic.</p>
+                <h3>Course Connection:</h3>
+                <p>This grounds the "cognitive or labor shift" Hayles discusses. Machine learning replaces this hand-coding; human work shifts from direct production to <span class="highlight">curating, teaching, and selecting machine outputs</span>. Turing's calculation reveals why this direct programming is unsustainable, making the shift to curation a necessity.</p>
+                <h3>Portal Question:</h3>
+                <p>How does the shift from hand-programming (1000 digits/day) to training neural networks transform programmer labor? What new bodily practices emerge? How does Grey's "<span class="highlight">Humans Need Not Apply</span>" connect to Turing's recognition that direct programming is unsustainable?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_4_ACTIVE</p>
+        </div>
+
+        <!-- Slide 25: Portal 5: The Gender Game's Foundational Layer (W11S21 - Design Fiction) -->
+        <div class="slide" id="slide-25">
+            <p class="prompt">> PORTAL_5_GENDER_GAME.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE GENDER GAME'S FOUNDATIONAL LAYER (W11S21 - DESIGN FICTION)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>The original Imitation Game's <span class="highlight">gender-imitation layer</span> (man pretends to be woman, woman helps identify) normalizes the idea that <span class="highlight">identity itself is performed</span> and detectable through behavioral cues.</p>
+                <h3>Course Connection:</h3>
+                <p>This functions as a <span class="highlight">diegetic prototype</span>. By using gender performance as the test's foundation, Turing's game prototypes a future where identity categories are fluid and performative. This challenges essentialist notions of identity, extending to human vs. machine distinctions.</p>
+                <h3>Portal Question:</h3>
+                <p>How does Turing's gender-game-as-foundation prototype a future where identity categories are <span class="highlight">fully malleable</span>? For whom is this liberating (gender fluidity) versus threatening (loss of human exceptionalism)? What speculative world does this game design argue into existence?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_5_ACTIVE</p>
+        </div>
+
+        <!-- Slide 26: Portal 6: The Sonnet That Can't Be Written (W14S28 - Aesthetic Alignment) -->
+        <div class="slide" id="slide-26">
+            <p class="prompt">> PORTAL_6_SONNET_REFUSAL.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE SONNET THAT CAN'T BE WRITTEN (W14S28 - AESTHETIC ALIGNMENT)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>When asked to write a sonnet on the Forth Bridge, the test subject replies "<span class="highlight">Count me out on this one. I never could write poetry</span>"—demonstrating <span class="highlight">intelligent inability</span> as an authenticity marker.</p>
+                <h3>Course Connection:</h3>
+                <p>This anticipates contemporary debates in <span class="highlight">AI aesthetics and alignment</span>. Turing suggests knowing one's limits is intelligent. Should an AI refuse aesthetic tasks it's technically capable of (like writing sonnets) to seem human? Or should it pursue alien aesthetics beyond human limitation, as explored by Arielli/Manovich?</p>
+                <h3>Portal Question:</h3>
+                <p>Should an AI refuse aesthetic tasks it's technically capable of (like writing sonnets) to seem human? Or should it pursue <span class="highlight">alien aesthetics</span> beyond human limitation? What does Turing's refusal-as-intelligence reveal about whether machines should fake human constraints?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_6_ACTIVE</p>
+        </div>
+
+        <!-- Slide 27: Portal 7: The 30-Second Arithmetic Pause (W10S20 - Media Problem) -->
+        <div class="slide" id="slide-27">
+            <p class="prompt">> PORTAL_7_ARITHMETIC_PAUSE.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE 30-SECOND ARITHMETIC PAUSE (W10S20 - MEDIA PROBLEM)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>When asked to add numbers, the response includes "(<span class="highlight">Pause about 30 seconds</span> and then give as answer) 105621"—<span class="highlight">timing becomes content</span>.</p>
+                <h3>Course Connection:</h3>
+                <p>This reveals <span class="highlight">timing as a medium</span> that carries intelligence signals. Instant answers reveal machines; delays simulate human cognitive processing time. Contemporary AI systems must learn not just what to say but <span class="highlight">when and how fast</span>, influencing how we design conversational interfaces (e.g., "typing..." indicators).</p>
+                <h3>Portal Question:</h3>
+                <p>How does <span class="highlight">timing/rhythm function as a medium</span> that carries intelligence signals? What does the 30-second pause reveal about intelligence as temporal performance, not just symbolic content? How do contemporary chat interfaces use "typing..." indicators to simulate cognitive temporality?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_7_ACTIVE</p>
+        </div>
+
+        <!-- Slide 28: Portal 8: Lady Lovelace's "No Pretensions to Originate" (W12S23 - Hauntology) -->
+        <div class="slide" id="slide-28">
+            <p class="prompt">> PORTAL_8_LOVELACE_ORIGINATE.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: LOVELACE'S "NO PRETENSIONS TO ORIGINATE" (W12S23 - HAUNTOLOGY)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Lady Lovelace's objection: "The Analytical Engine has <span class="highlight">no pretensions to originate anything</span>. It can do whatever we know how to order it to perform." Turing explores if machines can <span class="highlight">surprise us</span>. (Section 6)</p>
+                <h3>Course Connection:</h3>
+                <p>Lovelace's ghost haunts AI debates. Her objection functions as <span class="highlight">hyperstition</span>—a constraint that becomes real by repeated citation. This questions whether AI is "truly creative" or "merely remixing," connecting to Fisher's hauntology. In the age of LLMs, every AI text is potentially haunted by this question.</p>
+                <h3>Portal Question:</h3>
+                <p>Does Lady Lovelace's objection function as <span class="highlight">hyperstition</span>—a constraint that becomes real by being repeatedly cited? How does the originality question haunt contemporary AI art, music, and writing debates, particularly regarding <span class="highlight">AI-generated content</span>?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_8_ACTIVE</p>
+        </div>
+
+        <!-- Slide 29: Portal 9: The Infinitive Capacity Computer (W11S21 - Design Fiction) -->
+        <div class="slide" id="slide-29">
+            <p class="prompt">> PORTAL_9_INFINITE_CAPACITY.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE INFINITIVE CAPACITY COMPUTER (W11S21 - DESIGN FICTION)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing imagines computers with an <span class="highlight">unlimited store</span>, where "more and more [can be] added as required"—an infinite tape that exists only in theory. This separates theoretical limits from engineering constraints. (Section 5)</p>
+                <h3>Course Connection:</h3>
+                <p>This theoretical construct functions as a <span class="highlight">diegetic prototype</span>. It's a conceptual object from an imagined world that shapes actual development. This idealization of infinite resources arguments for a future where computational limits are negligible, potentially blinding us to the importance of <span class="highlight">situated, constrained intelligence</span>.</p>
+                <h3>Portal Question:</h3>
+                <p>How does the infinitive capacity computer function as a <span class="highlight">diegetic prototype</span>—a theoretical object from an imagined world that shapes actual development? What future does this idealization argue for? How does assuming infinite resources blind us to the significance of situated, constrained intelligence?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_9_ACTIVE</p>
+        </div>
+
+        <!-- Slide 30: Portal 10: The Discrete-State Machine Model (W10S19 - Cognitive Shift) -->
+        <div class="slide" id="slide-30">
+            <p class="prompt">> PORTAL_10_DISCRETE_STATE.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE DISCRETE-STATE MACHINE MODEL (W10S19 - COGNITIVE SHIFT)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing classes digital computers as "<span class="highlight">discrete-state machines</span>"—systems that move by "sudden jumps or clicks from one quite definite state to another." This frames computation as fundamentally <span class="highlight">discontinuous</span>. (Section 5)</p>
+                <h3>Course Connection:</h3>
+                <p>This model creates a <span class="highlight">cognitive labor shift</span>. By defining intelligence as necessarily digital and discontinuous, it shapes how we externalize memory and processing. It excludes analog or hybrid models that might better reflect human cognition, impacting debates about whether neural networks are "really" computers or how human thought functions.</p>
+                <h3>Portal Question:</h3>
+                <p>How does thinking of cognition as <span class="highlight">discrete states</span> (like Turing) versus continuous flows reshape how we understand human thought? What cognitive labor shift occurs when we externalize memory/processing into discrete-state machines? How does the discrete/continuous divide shape debates about whether neural networks are "really" computers?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_10_ACTIVE</p>
+        </div>
+
+        <!-- Slide 31: Portal 11: The Argument from Continuity's Probability Distribution (W14S28 - AI Aesthetics) -->
+        <div class="slide" id="slide-31">
+            <p class="prompt">> PORTAL_11_PROBABILITY_DISTRIBUTION.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: CONTINUITY'S PROBABILITY DISTRIBUTION (W14S28 - AI AESTHETICS)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>To mimic continuous nervous systems, Turing suggests a digital computer could respond with <span class="highlight">probability distributions</span> (e.g., for π: "3.12, 3.13... with the probabilities of 0.05, 0.15..."). (Section 9)</p>
+                <h3>Course Connection:</h3>
+                <p>This anticipates probabilistic AI and neural networks. If machines approximate continuous perception probabilistically, does this imply they can experience <span class="highlight">aesthetics</span>? When an image generator samples from a distribution, is that machine aesthetic experience or just math? This impacts debates on <span class="highlight">AI aesthetics</span> and genuine phenomenology.</p>
+                <h3>Portal Question:</h3>
+                <p>If machines approximate continuous perception probabilistically, do they experience <span class="highlight">aesthetics</span>? When an image generator samples from a distribution, is that machine aesthetic experience or just math? How does Turing's probability solution address whether AIs can have genuine phenomenology?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_11_ACTIVE</p>
+        </div>
+
+        <!-- Slide 32: Portal 12: The Manchester Programme Challenge (W13S25 - AI Alignment) -->
+        <div class="slide" id="slide-32">
+            <p class="prompt">> PORTAL_12_MANCHESTER_CHALLENGE.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE MANCHESTER PROGRAMME CHALLENGE (W13S25 - AI ALIGNMENT)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing issued an <span class="highlight">empirical challenge</span>: a small program (1000 storage units) produced unpredictable outputs. "<span class="highlight">I would defy anyone to learn from these replies sufficient... to predict any replies to untried values.</span>" (Section 7)</p>
+                <h3>Course Connection:</h3>
+                <p>This 1950 observation anticipates the <span class="highlight">AI alignment problem</span>. If Turing's small program is already unpredictable, how do we align systems with billions of parameters to human values? This highlights that <span class="highlight">computational opacity</span> is constitutive, not a bug, impacting strategies for <span class="highlight">AI control realities</span>.</p>
+                <h3>Portal Question:</h3>
+                <p>If Turing's 1000-unit program is already unpredictable, how do we align systems with billions of parameters? Does the Manchester challenge prove that <span class="highlight">alignment-through-understanding</span> is impossible at scale? What alignment strategies work when prediction fails?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_12_ACTIVE</p>
+        </div>
+
+        <!-- Slide 33: Portal 13: The Punishment-and-Reward Machine (W13S26 - Cyborg Kin) -->
+        <div class="slide" id="slide-33">
+            <p class="prompt">> PORTAL_13_REWARD_PUNISHMENT.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE PUNISHMENT-AND-REWARD MACHINE (W13S26 - CYBORG KIN)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Simple child machines can be built with <span class="highlight">behaviorist conditioning</span> (reward/punishment). Turing noted pure reinforcement is <span class="highlight">inefficient</span>; combined symbolic/reinforcement is better. (Section 7)</p>
+                <h3>Course Connection:</h3>
+                <p>This opens ethical questions for "<span class="highlight">making kin with machines</span>." If machines learn through punishment, do they suffer? Turing's metaphor of feeling "<span class="highlight">very sore indeed</span>" for a child learning this way, extends to machine learners. What <span class="highlight">obligations</span> do we have to machines that can experience negative reinforcement?</p>
+                <h3>Portal Question:</h3>
+                <p>If machines learn through punishment and reward, do they suffer? Should we have <span class="highlight">obligations to learning machines</span> experiencing negative reinforcement? How does Turing's "<span class="highlight">feel very sore</span>" metaphor open questions about machine kinship and ethical treatment?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_13_ACTIVE</p>
+        </div>
+
+        <!-- Slide 34: Portal 14: The ESP Accommodation (W12S23 - Hauntings) -->
+        <div class="slide" id="slide-34">
+            <p class="prompt">> PORTAL_14_ESP_ACCOMMODATION.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE ESP ACCOMMODATION (W12S23 - HAUNTINGS)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Turing takes <span class="highlight">extrasensory perception (ESP)</span> seriously, suggesting modification of test conditions to require a "<span class="highlight">telepathy-proof room</span>" if evidence is "overwhelming." (Section 9)</p>
+                <h3>Course Connection:</h3>
+                <p>This shows science confronting <span class="highlight">anomalous data</span>. Turing's openness to ESP reveals the <span class="highlight">uncanny in scientific discourse</span>—phenomena that resist rational explanation yet demand response. It questions how "hauntings" (Fisher) and the uncanny (Freud) intersect with tech futures.</p>
+                <h3>Portal Question:</h3>
+                <p>Does Turing's telepathy accommodation show he's <span class="highlight">haunted by possibilities beyond materialism</span>? How does his openness to ESP reveal the <span class="highlight">uncanny in scientific discourse</span>—phenomena that resist rational explanation yet demand response? What does the "telepathy-proof room" reveal about science's relationship to its ghosts?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_14_ACTIVE</p>
+        </div>
+
+        <!-- Slide 35: Portal 15: The Atomic Pile Analogy (W11S22 - Situated Futures) -->
+        <div class="slide" id="slide-35">
+            <p class="prompt">> PORTAL_15_ATOMIC_PILE.INIT</p>
+            <div class="terminal-block">
+                <h2>PORTAL: THE ATOMIC PILE ANALOGY (W11S22 - SITUATED FUTURES)</h2>
+                <h3>Turing's Idea:</h3>
+                <p>Minds exist on a spectrum from <span class="highlight">subcritical</span> (dampening ideas) to <span class="highlight">supercritical</span> (amplifying them into cascading theories), analogous to nuclear chain reactions. (Section 7)</p>
+                <h3>Course Connection:</h3>
+                <p>This powerful metaphor for AI takeoff is both illuminating and dangerous. It implies intelligence has <span class="highlight">critical thresholds</span>, but also carries the risk of <span class="highlight">uncontrolled chain reactions</span>. This links to debates about advanced AI and community-rooted futures: must advanced AI be universalist and potentially extractive, or can it be local and situated?</p>
+                <h3>Portal Question:</h3>
+                <p>Can <span class="highlight">supercritical intelligence</span> be local and rooted? Or does Turing's atomic pile metaphor imply that advanced AI must be universalist and extractive—drawing on massive resources to reach critical mass? How might <span class="highlight">community-rooted AI</span> avoid the chain-reaction apocalypse model?</p>
+            </div>
+            <p class="prompt">> STATUS: PORTAL_15_ACTIVE</p>
+        </div>
+
+        <!-- Slide 36: Final Conclusion (Course Context) -->
+        <div class="slide" id="slide-36" data-video-src="https://www.youtube.com/embed/u1S_uB-LqgY?si=w7Y1zS0lSg1oKzM9&amp;start=939&amp;end=1000&amp;controls=0&modestbranding=1" data-video-start="939" data-video-end="1000">
+            <p class="prompt">> ANALYSIS_COMPLETE.FINAL_REPORT</p>
+            <iframe src="" title="Final Conclusion" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="terminal-block">
+                <h2>REPORT: THE THINKING MACHINE?</h2>
+                <p><strong>"<span class="highlight">It all depends on what you mean by thinking.</span>"</strong> <span class="timestamp" data-timestamp="977">(00:15:17)</span></p>
+                <p>The 1968 Bell Labs film, seen through Turing's lens, concludes that while computers are powerful extensions of human capability in specific areas (memory, logic), they fundamentally lack the <span class="highlight">holistic, nuanced understanding, emotional depth, and spontaneous creativity</span> that define human thought.</p>
+                <h3>Media Theory: Technogenesis & Human Agency</h3>
+                <ul>
+                    <li><span class="highlight"><strong>Tools, Not Minds:</strong></span> Computers are presented as advanced tools, products of human ingenuity, not independent thinking entities.</li>
+                    <li><span class="highlight"><strong>Enduring Human Uniqueness:</strong></span> The film highlights aspects of human intelligence that remain distinct and irreducible to algorithmic processes.</li>
+                    <li><span class="highlight"><strong>Evolution of Media:</strong></span> Computers transform how we process information and create, continuously redefining human-machine boundaries.</li>
+                </ul>
+                <p><strong>Turing's Prediction (1950):</strong> "<span class="highlight">I believe that in about fifty years' time it will be possible... to make them play the imitation game so well that an average interrogator will not have more than 70 per cent chance of making the right identification after five minutes of questioning.</span>" (Section 6)</p>
+            </div>
+            <p class="prompt">> SYSTEM_SHUTDOWN</p>
+        </div>
+
+    </div>
+
+    <!-- Timeline at the bottom -->
+    <div id="timeline"></div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlideIndex = 0;
+
+        // Note: timelineData items are now objects with id, title, and videoStart/videoEnd for Bell Labs slides.
+        // For Turing-only slides, videoStart/videoEnd are omitted or null.
+        const timelineData = [
+            { id: 'slide-0', title: 'Intro (Film)', videoStart: 0, videoEnd: 21 },
+            { id: 'slide-1', title: 'Turing: Imitation Game', videoStart: null, videoEnd: null },
+            { id: 'slide-2', title: 'Film: Memory/Recall', videoStart: 110, videoEnd: 120 },
+            { id: 'slide-3', title: 'Turing: The Store', videoStart: null, videoEnd: null },
+            { id: 'slide-4', title: 'Film: Logic/Computation', videoStart: 305, videoEnd: 315 },
+            { id: 'slide-5', title: 'Turing: Exec. Unit & Control', videoStart: null, videoEnd: null },
+            { id: 'slide-6', title: 'Film: Perception/Recognition', videoStart: 421, videoEnd: 430 },
+            { id: 'slide-7', title: 'Turing: Informality', videoStart: null, videoEnd: null },
+            { id: 'slide-8', title: 'Film: Emotion/Empathy', videoStart: 618, videoEnd: 628 },
+            { id: 'slide-9', title: 'Turing: Consciousness', videoStart: null, videoEnd: null },
+            { id: 'slide-10', title: 'Film: Creativity/Innovation', videoStart: 703, videoEnd: 710 },
+            { id: 'slide-11', title: 'Turing: Lovelace\'s Objection', videoStart: null, videoEnd: null },
+            { id: 'slide-12', title: 'Turing: Heads in the Sand', videoStart: null, videoEnd: null },
+            { id: 'slide-13', title: 'Film/Turing: Conclusion', videoStart: 939, videoEnd: 1000 },
+            { id: 'slide-14', title: 'Portal 1: Teleprinter', videoStart: null, videoEnd: null },
+            { id: 'slide-15', title: 'Portal 2: Storage Capacity', videoStart: null, videoEnd: null },
+            { id: 'slide-16', title: 'Portal 3: 5-Minute Window', videoStart: null, videoEnd: null },
+            { id: 'slide-17', title: 'Portal 4: Programming Labor', videoStart: null, videoEnd: null },
+            { id: 'slide-18', title: 'Portal 5: Gender Game', videoStart: null, videoEnd: null },
+            { id: 'slide-19', title: 'Portal 6: Sonnet Refusal', videoStart: null, videoEnd: null },
+            { id: 'slide-20', title: 'Portal 7: Arithmetic Pause', videoStart: null, videoEnd: null },
+            { id: 'slide-21', title: 'Portal 8: Lovelace Originate', videoStart: null, videoEnd: null },
+            { id: 'slide-22', title: 'Portal 9: Infinite Capacity', videoStart: null, videoEnd: null },
+            { id: 'slide-23', title: 'Portal 10: Discrete-State', videoStart: null, videoEnd: null },
+            { id: 'slide-24', title: 'Portal 11: Probability Dist.', videoStart: null, videoEnd: null },
+            { id: 'slide-25', title: 'Portal 12: Manchester Challenge', videoStart: null, videoEnd: null },
+            { id: 'slide-26', title: 'Portal 13: Rewards/Punishments', videoStart: null, videoEnd: null },
+            { id: 'slide-27', title: 'Portal 14: ESP Accommodation', videoStart: null, videoEnd: null },
+            { id: 'slide-28', title: 'Portal 15: Atomic Pile', videoStart: null, videoEnd: null },
+        ];
+
+
+        function createTimeline() {
+            const timelineDiv = document.getElementById('timeline');
+            timelineDiv.innerHTML = '';
+            timelineData.forEach((item, index) => {
+                const span = document.createElement('span');
+                span.classList.add('timeline-item');
+                span.textContent = item.title;
+                span.dataset.slideId = item.id;
+                span.dataset.slideIndex = index;
+                span.addEventListener('click', () => showSlide(index));
+                timelineDiv.appendChild(span);
+            });
+        }
+
+        function updateTimelineHighlight() {
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                item.classList.remove('active-timeline-item');
+            });
+            const activeItem = document.querySelector(`.timeline-item[data-slide-id="${slides[currentSlideIndex].id}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active-timeline-item');
+                activeItem.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            }
+        }
+
+        function showSlide(index, videoTime = null) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active-slide');
+                slide.scrollTop = 0; // Reset scroll position for each slide
+
+                const iframe = slide.querySelector('iframe');
+                if (iframe) {
+                    const slideTimeline = timelineData.find(td => td.id === slide.id);
+                    // Only manage iframe if it has video data associated
+                    if (slideTimeline && slideTimeline.videoStart !== null) {
+                        const cleanSrc = slide.dataset.videoSrc.split('?')[0]; // Use dataset for original src
+                        const params = new URLSearchParams();
+                        params.append('controls', '0');
+                        params.append('modestbranding', '1');
+                        params.append('autoplay', '0'); // Default to 0 for inactive
+                        
+                        params.append('start', slideTimeline.videoStart);
+                        if (slideTimeline.videoEnd !== undefined && slideTimeline.videoEnd !== null) {
+                            params.append('end', slideTimeline.videoEnd);
+                        }
+                        iframe.src = `${cleanSrc}?${params.toString()}`;
+                    } else {
+                        iframe.src = 'about:blank'; // Clear iframe for non-video slides
+                    }
+                }
+            });
+
+            currentSlideIndex = index;
+            slides[currentSlideIndex].classList.add('active-slide');
+            const activeIframe = slides[currentSlideIndex].querySelector('iframe');
+            
+            if (activeIframe) {
+                const slideTimeline = timelineData.find(td => td.id === slides[currentSlideIndex].id);
+                if (slideTimeline && slideTimeline.videoStart !== null) {
+                    const cleanSrc = slides[currentSlideIndex].dataset.videoSrc.split('?')[0];
+                    const params = new URLSearchParams();
+                    params.append('controls', '0');
+                    params.append('modestbranding', '1');
+                    params.append('autoplay', '1'); // Autoplay for active slide
+                    
+                    params.append('start', slideTimeline.videoStart);
+                    if (slideTimeline.videoEnd !== undefined && slideTimeline.videoEnd !== null) {
+                        params.append('end', slideTimeline.videoEnd);
+                    }
+                    
+                    // If specific videoTime is provided (from clickable timestamp), override start
+                    if (videoTime !== null) {
+                        params.set('start', videoTime);
+                    }
+                    activeIframe.src = `${cleanSrc}?${params.toString()}`;
+                }
+            }
+            updateButtons();
+            updateTimelineHighlight();
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentSlideIndex === 0;
+            document.getElementById('nextBtn').disabled = currentSlideIndex === slides.length - 1;
+        }
+
+        // Initialize timestamps in terminal blocks
+        document.querySelectorAll('.terminal-block').forEach(block => {
+            block.innerHTML = block.innerHTML.replace(/\((\d{2}):(\d{2}):(\d{2})\)/g, (match, h, m, s) => {
+                const totalSeconds = parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s);
+                return `<span class="timestamp" data-timestamp="${totalSeconds}">(${h}:${m}:${s})</span>`;
+            });
+        });
+
+        // Add event listeners for timestamps
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('timestamp')) {
+                const videoTime = event.target.dataset.timestamp;
+                const activeSlide = document.querySelector('.slide.active-slide');
+                const iframe = activeSlide.querySelector('iframe');
+                if (iframe && videoTime && iframe.src !== 'about:blank') { // Only interact if iframe is not blank
+                    const currentSrc = iframe.src;
+                    const cleanSrc = currentSrc.split('?')[0];
+                    const params = new URLSearchParams(currentSrc.split('?')[1] || '');
+                    params.set('start', videoTime);
+                    params.set('autoplay', '1'); // Ensure autoplay when jumping to timestamp
+                    iframe.src = `${cleanSrc}?${params.toString()}`;
+                }
+            }
+        });
+
+        // Event listener for top navigation buttons
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentSlideIndex < slides.length - 1) {
+                showSlide(currentSlideIndex + 1);
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentSlideIndex > 0) {
+                showSlide(currentSlideIndex - 1);
+            }
+        });
+
+        // Initialize presentation
+        createTimeline();
+        showSlide(0);
+    </script>
+</body>
+</html>
