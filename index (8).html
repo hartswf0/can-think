@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platforms from Turing's Computing Machinery and Intelligence (1950)</title>
+    <style>
+        :root {
+            --primary-color: #00ff41;
+            --bg-color: #0a0a0a;
+            --text-color: #00ff41;
+            --secondary-color: #ffffff;
+            --accent-color: #ffb000;
+            --border-color: #333333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Courier New', Consolas, Monaco, monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            padding: 10px 20px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 255, 65, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .slide-counter {
+            font-size: 1rem;
+            color: var(--accent-color);
+        }
+
+        .slide-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transform: translateX(100%);
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            transform: translateX(0);
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            text-align: center;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .slide p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .slide ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .slide li {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .slide li:before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .quote {
+            background-color: rgba(0, 255, 65, 0.1);
+            border-left: 3px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .feature-tag {
+            background-color: rgba(255, 176, 0, 0.2);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent-color);
+        }
+
+        .connection {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--secondary-color);
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 3px;
+        }
+
+        .connection:before {
+            content: '→ ';
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .navigation {
+            padding: 15px 20px;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 255, 65, 0.05);
+        }
+
+        .nav-button {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+        }
+
+        .title-slide h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .title-slide .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 15px;
+            }
+
+            .slide h2 {
+                font-size: 2rem;
+            }
+
+            .slide h3 {
+                font-size: 1.4rem;
+            }
+
+            .slide p, .slide li {
+                font-size: 1rem;
+            }
+
+            .title-slide h2 {
+                font-size: 2.2rem;
+            }
+
+            .title-slide .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .nav-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .header h1 {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide h2 {
+                font-size: 1.6rem;
+            }
+
+            .slide h3 {
+                font-size: 1.2rem;
+            }
+
+            .slide p, .slide li {
+                font-size: 0.95rem;
+            }
+
+            .title-slide h2 {
+                font-size: 1.8rem;
+            }
+
+            .nav-button {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>TURING LECTURE SYSTEM v1.0</h1>
+            <div class="slide-counter">SLIDE <span id="current-slide">1</span>/15</div>
+        </header>
+
+        <div class="slide-container" id="slide-container">
+            <!-- Slide 1: Title -->
+            <div class="slide active title-slide">
+                <h2>PLATFORMS FROM TURING'S<br>'COMPUTING MACHINERY AND INTELLIGENCE'<br>(1950)</h2>
+                <div class="subtitle">A College-Level Lecture on the Foundations of AI</div>
+                <img src="https://pplx-res.cloudinary.com/image/upload/v1761246758/pplx_project_search_images/dd98018af43694cd0a741453b6a04518452b5e3e.png" alt="Alan Turing portrait" class="slide-image">
+                <div class="footer">Alan M. Turing | Mind 59:236 | October 1950</div>
+            </div>
+
+            <!-- Slide 2: Historical Context -->
+            <div class="slide">
+                <h2>HISTORICAL CONTEXT</h2>
+                <ul>
+                    <li>Published: Mind, October 1950</li>
+                    <li>Question: "Can machines think?"</li>
+                    <li>Turing's Strategy: Replace metaphysical question with operational test</li>
+                    <li>Manchester Mark 1 computer operational (165,000 binary digits storage)</li>
+                    <li>Prediction: By 2000, machines will pass imitation game (70% success in 5 minutes)</li>
+                </ul>
+                <img src="https://pplx-res.cloudinary.com/image/upload/v1759347455/pplx_project_search_images/1d9ae43bd19007cc33b6a360f953be3f0b61c4a9.png" alt="Early computer system from 1949" class="slide-image">
+            </div>
+
+            <!-- Slide 3: Platform 1 -->
+            <div class="slide">
+                <h2>PLATFORM 1: THE IMITATION GAME AS TEST</h2>
+                <h3>Key Concept:</h3>
+                <p>"Replacing 'Can machines think?' with operational behavioral test"</p>
+                <h3>Example:</h3>
+                <p>Three-person game - interrogator (C), man (A), woman (B) communicate through text only</p>
+                <h3>Argument:</h3>
+                <p>Test whether machine can imitate human responses to point of indistinguishability</p>
+                <div class="quote">
+                    "Instead of attempting such a definition I shall replace the question by another, which is closely related to it and is expressed in relatively unambiguous words."
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Behavioral</span>
+                    <span class="feature-tag">Empirical</span>
+                    <span class="feature-tag">Avoids metaphysics</span>
+                    <span class="feature-tag">Performance-focused</span>
+                </div>
+                <div class="connection">Course Connection: Intelligence as media problem (W10S20)</div>
+            </div>
+
+            <!-- Slide 4: Platform 2 -->
+            <div class="slide">
+                <h2>PLATFORM 2: THE UNIVERSAL MACHINE</h2>
+                <h3>Key Concept:</h3>
+                <p>"Digital computers capable of mimicking any discrete-state machine"</p>
+                <h3>Example:</h3>
+                <p>Manchester machine with 165,000 binary digits storage</p>
+                <h3>Argument:</h3>
+                <p>Because computers are universal, questions about intelligence reduce to programming questions</p>
+                <div class="quote">
+                    "They can mimic any discrete-state machine - described as universal machines"
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Programmable</span>
+                    <span class="feature-tag">Universal</span>
+                    <span class="feature-tag">Discrete-state</span>
+                    <span class="feature-tag">Deterministic</span>
+                </div>
+                <div class="connection">Course Connection: Computation as substrate-independent (W13S26)</div>
+            </div>
+
+            <!-- Slide 5: Platform 10 -->
+            <div class="slide">
+                <h2>PLATFORM 10: THE LEARNING MACHINE AS CHILD</h2>
+                <h3>Key Concept:</h3>
+                <p>"Program a child-like machine and educate it rather than directly programming adult mind"</p>
+                <h3>Example:</h3>
+                <p>Child's brain as "notebook with little mechanism, lots of blank sheets"</p>
+                <h3>Argument:</h3>
+                <p>More tractable to create simple child machine and educate it than program all complexity</p>
+                <div class="quote">
+                    "Instead of trying to produce a programme to simulate the adult mind, why not rather try to produce one which simulates the child's?"
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Educational</span>
+                    <span class="feature-tag">Evolutionary</span>
+                    <span class="feature-tag">Reward-punishment based</span>
+                    <span class="feature-tag">Gradual complexity</span>
+                </div>
+                <div class="connection">Course Connection: Technogenesis - human-machine co-evolution (W10S19)</div>
+            </div>
+
+            <!-- Slide 6: Platform 12 -->
+            <div class="slide">
+                <h2>PLATFORM 12: TEACHER IGNORANCE &amp; EMERGENT BEHAVIOR</h2>
+                <h3>Key Concept:</h3>
+                <p>"Learning machine's internal states become opaque even to its teacher"</p>
+                <h3>Example:</h3>
+                <p>Manchester program (1,000 units) produces unpredictable responses to 16-figure numbers in 2 seconds</p>
+                <h3>Argument:</h3>
+                <p>"Machines can only do what we order them" is strange - most programs produce unpredictable behavior</p>
+                <div class="quote">
+                    "An important feature of a learning machine is that its teacher will often be very largely ignorant of quite what is going on inside"
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Emergent complexity</span>
+                    <span class="feature-tag">Teacher opacity</span>
+                    <span class="feature-tag">Natural uncertainty</span>
+                    <span class="feature-tag">Learning-induced unpredictability</span>
+                </div>
+                <div class="connection">Course Connection: AI alignment crisis - opacity at scale (W13S25)</div>
+            </div>
+
+            <!-- Slide 7: Platform 15 -->
+            <div class="slide">
+                <h2>PLATFORM 15: THE TELEPRINTER AS EPISTEMIC EQUALIZER</h2>
+                <h3>Key Concept:</h3>
+                <p>"Communication medium as arbiter of what counts as intelligence"</p>
+                <h3>Example:</h3>
+                <p>Teleprinter eliminates voice tone, physical presence, all non-textual cues</p>
+                <h3>Argument:</h3>
+                <p>Choice of communication medium fundamentally shapes what we can test and therefore know</p>
+                <div class="quote">
+                    "In order that tones of voice may not help... the ideal arrangement is to have a teleprinter communicating between the two rooms"
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Medium-determined epistemology</span>
+                    <span class="feature-tag">Text privilege</span>
+                    <span class="feature-tag">Selective sensory deprivation</span>
+                </div>
+                <div class="connection">Course Connection: Reading with machines - cognitive mediation (W10S19)</div>
+            </div>
+
+            <!-- Slide 8: Platform 16 -->
+            <div class="slide">
+                <h2>PLATFORM 16: THE GENDER GAME AS MISDIRECTION</h2>
+                <h3>Key Concept:</h3>
+                <p>"Original game involves gender imitation, not human-machine distinction"</p>
+                <h3>Example:</h3>
+                <p>Man (A) tries to make interrogator (C) wrongly identify him as woman (B)</p>
+                <h3>Argument:</h3>
+                <p>By first establishing game about imitating gender (already socially constructed category), machine substitution becomes less radical</p>
+                <div class="quote">
+                    "We now ask the question, 'What will happen when a machine takes the part of A in this game?'"
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Performance-based ontology</span>
+                    <span class="feature-tag">Social construction</span>
+                    <span class="feature-tag">Strategic misdirection</span>
+                    <span class="feature-tag">Provocative politics</span>
+                </div>
+                <div class="connection">Course Connection: Diegetic prototypes - what futures argued into being? (W11S21)</div>
+            </div>
+
+            <!-- Slide 9: Platform 18 -->
+            <div class="slide">
+                <h2>PLATFORM 18: THE SUPERCRITICAL MIND</h2>
+                <h3>Key Concept:</h3>
+                <p>"Minds as nuclear piles that either dampen or amplify incoming ideas"</p>
+                <h3>Example:</h3>
+                <p>Most minds subcritical (&lt;1 idea per input); some supercritical (cascading ideas into theories)</p>
+                <h3>Argument:</h3>
+                <p>Question isn't just "can machines think?" but "can machines be supercritical?"</p>
+                <div class="quote">
+                    "The majority seem to be 'subcritical'... An idea presented will on average give rise to less than one idea in reply. A smallish proportion are supercritical."
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Threshold effects</span>
+                    <span class="feature-tag">Amplification vs dampening</span>
+                    <span class="feature-tag">Phase transitions</span>
+                    <span class="feature-tag">Physics-inspired cognitive model</span>
+                </div>
+                <div class="connection">Course Connection: Nuclear metaphor as speculative design fiction (W11S21)</div>
+            </div>
+
+            <!-- Slide 10: Platform 27 -->
+            <div class="slide">
+                <h2>PLATFORM 27: THE CONSTITUTION ANALOGY</h2>
+                <h3>Key Concept:</h3>
+                <p>"Distinguishing time-invariant machine rules from ephemeral learned rules"</p>
+                <h3>Example:</h3>
+                <p>Like U.S. Constitution - meta-rules for changing ordinary laws while Constitution remains stable</p>
+                <h3>Argument:</h3>
+                <p>Paradox of learning ("How can rules change?") dissolves with hierarchical rule systems</p>
+                <div class="quote">
+                    "The rules which get changed in the learning process are of a rather less pretentious kind, claiming only an ephemeral validity. The reader may draw a parallel with the Constitution of the United States."
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Hierarchical rule systems</span>
+                    <span class="feature-tag">Meta-rules vs object-rules</span>
+                    <span class="feature-tag">Constitutional model</span>
+                    <span class="feature-tag">Stable architecture enabling flexible behavior</span>
+                </div>
+                <div class="connection">Course Connection: Cybernetic systems - feedback and self-modification (W12S24)</div>
+            </div>
+
+            <!-- Slide 11: Platform 29 -->
+            <div class="slide">
+                <h2>PLATFORM 29: THE PROPHETIC VOICE PROBLEM</h2>
+                <h3>Key Concept:</h3>
+                <p>"Social and rhetorical challenge of expressing beliefs about future AI capabilities"</p>
+                <h3>Example:</h3>
+                <p>By century's end, people will speak of machines thinking "without expecting to be contradicted"</p>
+                <h3>Argument:</h3>
+                <p>Making predictions serves scientific progress even when uncertain; conjectures suggest useful research directions</p>
+                <div class="quote">
+                    "I believe that at the end of the century the use of words and general educated opinion will have altered so much that one will be able to speak of machines thinking without expecting to be contradicted. I believe further that no useful purpose is served by concealing these beliefs."
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Performative prophecy</span>
+                    <span class="feature-tag">Justification of speculation</span>
+                    <span class="feature-tag">Research program advocacy</span>
+                    <span class="feature-tag">Self-aware futurism</span>
+                </div>
+                <div class="connection">Course Connection: Hyperstition - fictions that make themselves real (W12S23)</div>
+            </div>
+
+            <!-- Slide 12: Platform 33 -->
+            <div class="slide">
+                <h2>PLATFORM 33: THE WASTEPAPER BASKET AS LABOR TRANSFORMATION</h2>
+                <h3>Key Concept:</h3>
+                <p>"Shift from direct programming to machine learning represents fundamental transformation in cognitive labor"</p>
+                <h3>Example:</h3>
+                <p>"60 workers over 50 years couldn't program adult intelligence 'if nothing went into the wastepaper basket'"</p>
+                <h3>Argument:</h3>
+                <p>Human labor shifts from direct production to curation of evolutionary processes - the basket is where the real work happens</p>
+                <div class="quote">
+                    "At my present rate of working I produce about a thousand digits of programme a day... if nothing went into the wastepaper basket. Some more expeditious method seems desirable."
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Shift from production to curation</span>
+                    <span class="feature-tag">Iterative failure as primary work</span>
+                    <span class="feature-tag">Evolutionary selection as labor</span>
+                </div>
+                <div class="connection">Course Connection: Concrete cognitive/labor shift with AI scaling (W10S19)</div>
+            </div>
+
+            <!-- Slide 13: Platform 37 -->
+            <div class="slide">
+                <h2>PLATFORM 37: THE VIVA VOCE AS CONSCIOUSNESS TEST</h2>
+                <h3>Key Concept:</h3>
+                <p>"Imitation game parallels oral examination detecting presence of authentic comprehension versus ghost of mere reproduction"</p>
+                <h3>Example:</h3>
+                <p>Sonnet viva voce testing whether understanding is "real" or "learnt parrot fashion"</p>
+                <h3>Argument:</h3>
+                <p>Test tries to distinguish living comprehension from undead, authentic thought from zombie simulacrum</p>
+                <div class="quote">
+                    "The game (with player B omitted) is frequently used in practice under the name of viva voce to discover whether some one really understands something or has 'learnt it parrot fashion.'"
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Hauntological testing</span>
+                    <span class="feature-tag">Presence vs ghost</span>
+                    <span class="feature-tag">Authentic vs simulated understanding</span>
+                    <span class="feature-tag">Strategic imperfection</span>
+                </div>
+                <div class="connection">Course Connection: Freud's uncanny, Fisher's crackle, hauntings in AI (W12S23)</div>
+            </div>
+
+            <!-- Slide 14: Platform 40 -->
+            <div class="slide">
+                <h2>PLATFORM 40: THE ALIGNMENT PROBLEM</h2>
+                <h3>Key Concept:</h3>
+                <p>"Turing predicts the central problem of contemporary AI: we won't understand systems we create, yet will be responsible for their behavior"</p>
+                <h3>Example:</h3>
+                <p>"Teacher will be 'very largely ignorant of quite what is going on inside' the learning machine"</p>
+                <h3>Argument:</h3>
+                <p>How do we ensure AI systems pursue human values when we can't understand their internal workings?</p>
+                <div class="quote">
+                    "This is in clear contrast with normal procedure when using a machine to do computations: one's object is then to have a clear mental picture of the state of the machine at each moment in the computation."
+                </div>
+                <h3>Key Features:</h3>
+                <div class="features">
+                    <span class="feature-tag">Constitutive opacity</span>
+                    <span class="feature-tag">Alignment-through-ignorance</span>
+                    <span class="feature-tag">Black-box responsibility</span>
+                    <span class="feature-tag">Pedagogical uncertainty</span>
+                </div>
+                <div class="connection">Course Connection: "Machines of Loving Grace" vs alignment realities (W13S25)</div>
+            </div>
+
+            <!-- Slide 15: Conclusion -->
+            <div class="slide">
+                <h2>TURING'S LEGACY: FROM 1950 TO TODAY</h2>
+                <p><strong>Predicted by 2000:</strong> Machines would pass imitation game with 70% success in 5 minutes</p>
+                <p><strong>Reality 2025:</strong> LLMs approach but don't reliably pass rigorous Turing Tests</p>
+                <h3>Core Insights Still Relevant:</h3>
+                <ul>
+                    <li>Intelligence as media/performance problem</li>
+                    <li>Learning machines require opacity and emergent behavior</li>
+                    <li>Human-machine co-evolution (technogenesis)</li>
+                    <li>Alignment problem inherent to opaque learning systems</li>
+                    <li>Hyperstition: Turing's prophecy shaped 75 years of AI development</li>
+                </ul>
+                <div class="quote">
+                    Question Remains: "Can machines think?" or "What kind of conversation counts as intelligence?"
+                </div>
+                <img src="https://pplx-res.cloudinary.com/image/upload/v1756364513/pplx_project_search_images/447802070e92c72058e0474d453bb37b13e7b199.png" alt="Enigma machine representing early computational cryptography" class="slide-image">
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <button class="nav-button" id="prev-btn" disabled>← PREV</button>
+            <div class="slide-counter">NAVIGATING PLATFORMS</div>
+            <button class="nav-button" id="next-btn">NEXT →</button>
+        </nav>
+    </div>
+
+    <script>
+        class TuringPresentation {
+            constructor() {
+                this.currentSlide = 0;
+                this.totalSlides = 15;
+                this.slides = document.querySelectorAll('.slide');
+                this.prevBtn = document.getElementById('prev-btn');
+                this.nextBtn = document.getElementById('next-btn');
+                this.slideCounter = document.getElementById('current-slide');
+                this.slideContainer = document.getElementById('slide-container');
+                
+                this.touchStartX = 0;
+                this.touchEndX = 0;
+                
+                this.init();
+            }
+            
+            init() {
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        this.nextSlide();
+                    }
+                });
+                
+                // Button navigation
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                
+                // Touch navigation
+                this.slideContainer.addEventListener('touchstart', (e) => {
+                    this.touchStartX = e.changedTouches[0].screenX;
+                });
+                
+                this.slideContainer.addEventListener('touchend', (e) => {
+                    this.touchEndX = e.changedTouches[0].screenX;
+                    this.handleSwipe();
+                });
+                
+                this.updateDisplay();
+            }
+            
+            handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = this.touchStartX - this.touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swiped left, go to next slide
+                        this.nextSlide();
+                    } else {
+                        // Swiped right, go to previous slide
+                        this.prevSlide();
+                    }
+                }
+            }
+            
+            nextSlide() {
+                if (this.currentSlide < this.totalSlides - 1) {
+                    this.currentSlide++;
+                    this.updateDisplay();
+                }
+            }
+            
+            prevSlide() {
+                if (this.currentSlide > 0) {
+                    this.currentSlide--;
+                    this.updateDisplay();
+                }
+            }
+            
+            updateDisplay() {
+                // Update slides
+                this.slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'prev');
+                    if (index === this.currentSlide) {
+                        slide.classList.add('active');
+                    } else if (index < this.currentSlide) {
+                        slide.classList.add('prev');
+                    }
+                });
+                
+                // Update counter
+                this.slideCounter.textContent = this.currentSlide + 1;
+                
+                // Update buttons
+                this.prevBtn.disabled = this.currentSlide === 0;
+                this.nextBtn.disabled = this.currentSlide === this.totalSlides - 1;
+                
+                // Update button text for last slide
+                if (this.currentSlide === this.totalSlides - 1) {
+                    this.nextBtn.textContent = 'END';
+                } else {
+                    this.nextBtn.textContent = 'NEXT →';
+                }
+            }
+        }
+        
+        // Initialize presentation when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new TuringPresentation();
+        });
+    </script>
+</body>
+</html>
